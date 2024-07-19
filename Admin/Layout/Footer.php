@@ -1,5 +1,5 @@
 <div class=""
-    style=" background-color : #3d3d3d ;  display: block;position: absolute ; bottom: 0px ; right : 0px  ; left: 0px;">
+    style=" background-colora : #3d3d3d ;  display: block;position: absolute ; bottom: 0px ; right : 0px  ; left: 0px;">
     <div class="container">
         <div class="row">
             <div class="col-12">

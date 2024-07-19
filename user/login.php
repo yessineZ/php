@@ -2,6 +2,13 @@
 include '../Layout/Header.php';
 include './Functions.php' ;
 
+
+
+
+
+
+
+
 if(isset($_SESSION["username"])) {
     header('Location: profile.php');
 }
@@ -14,27 +21,41 @@ if (isset($_POST['submit'])) {
     $password = $_POST['password'];
 
     
-    $user = Login($email);
-    
-    
-   
-    if (isset($user) && password_verify($password, $user['password'])) {
+     
+    $result = Login($email);
+
+if ($result) {
+    if ($result['role'] == 'admin') {
         
-            $_SESSION['email'] = $email;
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['userPhone'] = $user['phone'];
-            $_SESSION['password'] = $password ; 
-            $_SESSION['id'] = $user['id']; 
-    
-            header('Location: profile.php');
-         
-        } else {
-            
-            echo '<div class="alert alert-danger" role="alert">
-                    Invalid email or password!
-                    </div>';
-        }
-    } 
+        $_SESSION['EmailAdmin'] = $email ; 
+            $_SESSION['UsernameAdmin'] = $result['data']['name'];
+            $_SESSION['PasswordAdmin'] = $password ;
+              header("Location: http://" . $_SERVER['HTTP_HOST'] . "/projetStage/Admin/profile.php");
+}else if($result['role'] == 'client') {
+if (isset($result) && password_verify($password,$result['data']['password'])) {
+
+$_SESSION['email'] = $email;
+$_SESSION['username'] = $result['data']['username'];
+$_SESSION['userPhone'] = $result['data']['phone'];
+$_SESSION['password'] = $password ;
+$_SESSION['id'] = $result['data']['id'];
+
+header('Location: profile.php');
+
+} else {
+
+echo '<div class="alert alert-danger" role="alert">
+    Invalid email or password!
+</div>';
+}
+}
+
+}
+}
+
+
+
+
 
 ?>
 
@@ -71,7 +92,7 @@ if (isset($_POST['submit'])) {
 
                 <div class="row">
                     <div class="col-4">
-                        <input type="submit" name="submit" value="Login" class="btn btn-primary btn-sm float-end" />
+                        <input type="submit" name="submit" value="Login" class="btn btn-primary btn-xl float-end" />
                     </div>
                 </div>
             </form>

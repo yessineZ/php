@@ -74,9 +74,9 @@ if(isset($_POST["submit"])) {
 
                 <div class="row">
 
-                    <div class="col-4">
+                    <div class="col-12">
                         <input id="submit" type="submit" name="submit" value="Register"
-                            class="btn btn-primary btn-sm float-end" />
+                            class="btn btn-primary btn-xl ml-auto" />
                     </div>
                 </div>
 

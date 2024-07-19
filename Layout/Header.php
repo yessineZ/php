@@ -13,7 +13,7 @@
 ?>
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.php">STAGE</a>
+        <a class="navbar-brand" href="index.php">MTD</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
             aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -42,9 +42,12 @@
 
 
             </ul>
-            <form action="index.php" method="post">
-                <input class="form-control me-sm-2" type="search" placeholder="Search" name="search">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            <form action="index.php" method="post" class="">
+                <div class="div flex  align-center justify-center">
+                    <input class="form-control me-sm-2" type="search" placeholder="Search" name="search">
+                    <button class="btn btn-secondary text-center" type="submit">Search</button>
+                </div>
+
             </form>
         </div>
     </div>
@@ -56,5 +59,11 @@
     margin: 0px;
     box-sizing: border-box;
     overflow: hidden;
+}
+
+.div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>

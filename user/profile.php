@@ -30,7 +30,7 @@
         <div class="info">
             <p>Username : <?php echo $_SESSION["username"] ;?></p>
             <p>Email :<?php echo $_SESSION["email"] ;?> </p>
-            <p>Password : <?php echo $_SESSION["password"] ;?></p>
+            <p class="pass">Password : <?php echo $_SESSION["password"] ;?></p>
             <p>Phone :<?php echo $_SESSION["userPhone"] ?> </p>
         </div>
         <a href="deconnection.php" class="btn btn-danger w-25 m-auto">Logout</a>
@@ -51,7 +51,7 @@
     justify-content: center;
     flex-direction: column;
     width: 350px;
-    background-color: blueviolet;
+    background-color: #3d3d3d;
     border-radius: 10px;
 }
 
@@ -73,5 +73,15 @@
 
 
 </html>
+<script>
+let pass = document.getElementsByClassName("pass")[0];
+let pass1 = pass.textContent;
+let password1 = pass1.split(" ")[2];
+console.log(password1);
+const Hashpass = password1.split('').map((e) => {
+    return '*';
+});
+pass.textContent = `Password : ${Hashpass.join("")}`;
+</script>
 
 <?php include '../Layout/Footer.php' ?>

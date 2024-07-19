@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_reference'])) {
 // Function to handle image upload
 function uploadImage($inputName) {
     $targetDir = "../../images/";
-    $targetFile = $targetDir . basename($_FILES[$inputName]["name"]);
+    $targetFile = basename($_FILES[$inputName]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
@@ -67,7 +67,7 @@ function uploadImage($inputName) {
     }
 
     // if everything is ok, try to upload file
-    if (move_uploaded_file($_FILES[$inputName]["tmp_name"], $targetFile)) {
+    if (move_uploaded_file($_FILES[$inputName]["tmp_name"],"../../images/" . $targetFile)) {
         return $targetFile;
     } else {
         return false;
@@ -182,7 +182,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                         echo $client["username"]; ?>
                     </td>
                     <td id="description-<?php echo $reference['id']; ?>"><?php echo $reference["description"]; ?></td>
-                    <td><img id="img-<?php echo $reference['id']; ?>" src="<?php echo $reference["logo"]; ?>"
+                    <td><img id="img-<?php echo $reference['id']; ?>"
+                            src="<?php  echo "../../images/" . $reference["logo"]; ?>"
                             style="height: 75px; width: 75px;" alt="reference Image"></td>
                     <td id="link-<?php echo $reference['id']; ?>"><?php echo $reference["link"]; ?></td>
                     <td id="type-<?php echo $reference['id']; ?>">

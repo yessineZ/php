@@ -53,10 +53,10 @@ img {
         <?php foreach ($references as $reference) { ?>
         <div class="col-3">
             <div class="card" style="width: 18rem;">
-                <img style="width : 200px ; height :200px ;" src="./ProductImages/<?php echo $game["image"]  ?>"
-                    class="card-img-top" alt="...">
+                <img style="width : 200px ; height :200px ;" src="<?php echo "../images/" . $reference["logo"]  ?>"
+                    class="card-img" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title"><?php echo $reference["id_user"] ?></h5>
+                    <h5 class="card-title"><?php echo $_SESSION['username'] ?></h5>
                     <p class="card-text"><?php echo $reference["description"]?></p>
                     <a href="game.php?id=<?php echo $reference['id']; ?>" class="btn btn-primary">Details</a>
                 </div>

@@ -54,10 +54,7 @@ function Adduser($users) {
      $phone = $users["phone"] ;
      $query = $conn->query("INSERT INTO users (username,password,email,phone) VALUES ('$name','$passwordHashed','$email','$phone')") ;
      
-     $query1 = "select * from users WHERE username = '$name' "  ;
-     if($query1) {
-          return false ; 
-     } 
+     
      if(isset($query)) {
           return true ;
      }
@@ -71,16 +68,32 @@ function Adduser($users) {
 
 
 function Login($email) {
-     $conn = ConnectToDb() ;
-     $query = $conn->query("SELECT * FROM users WHERE email='$email' ") ;  
-      
-     
-     $result = $query->fetch();
-     
-     return $result;
+    $conn = ConnectToDb();
 
-     
+    
+    $adminQuery = $conn->query("SELECT * FROM admin WHERE email='$email'");
+    $adminResult = $adminQuery->fetch();
+
+    if ($adminResult) {
+        
+        return ['role' => 'admin', 'data' => $adminResult];
+    } else {
+        
+        $clientQuery = $conn->query("SELECT * FROM users WHERE email='$email'");
+        $clientResult = $clientQuery->fetch();
+
+        if ($clientResult) {
+            
+            return ['role' => 'client', 'data' => $clientResult];
+        } else {
+            
+            return null;
+        }
+    }
 }
+
+
+
 
 function getusers($usersname, $password) {
      $conn = ConnectToDb() ;
