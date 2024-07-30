@@ -99,7 +99,7 @@ $clients = GetAllClients();
                             <td><?php echo $reference["link"]; ?></td>
                             <td><?php echo gettType($reference["id_type"])["name"]; ?></td>
                             <td><?php echo getPays($reference["pays"])["name"]; ?></td>
-                            <td><?php echo $reference["annee"]; ?></td>
+                            <td><?php echo getYear($reference["annee"])['year']; ?></td>
                             <td><?php echo $reference["creator"]; ?></td>
                             <td>
                                 <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal"

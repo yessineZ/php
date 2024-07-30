@@ -35,7 +35,7 @@ if (!isset($_SESSION['EmailAdmin'])) {
     <div class="container">
         <div class="row pt-4 pb-2">
             <div class="col-4">
-                <h2 class="text-primary">Years List</h2>
+                <h2 class="text-primary text-white">Years List</h2>
             </div>
             <div class="col-6 text-end">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createYearModal">

@@ -66,6 +66,16 @@ function Adduser($users) {
 
 }
 
+function getYear($id) {
+    $conn = ConnectToDb() ;
+    
+    $query = "SELECT * FROM year WHERE id = :id" ; 
+    $statement = $conn->prepare($query);
+    $statement->bindParam(':id', $id);
+    $statement->execute();
+    $year = $statement->fetch();
+    return $year ;
+}
 
 function Login($email) {
     $conn = ConnectToDb();
@@ -174,7 +184,7 @@ $id = intval($id);
 
     $query = "SELECT * FROM reference WHERE Client_id = '$id' and description like '%$name' " ; 
     $conn = $conn->query($query) ;
-    $references = $conn->fetchAll() ;  
+    $references = $conn->fetchAll() ;
     return $references;
 }
 
