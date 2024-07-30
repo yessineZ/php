@@ -11,6 +11,7 @@ if(isset($_GET['user_id'])) {
 $types = GetTypes();
 $users = getUsers();
 $countries = GetCountries();
+$clients = GetClient();
 
 if(!isset($_SESSION['EmailAdmin'])) {
     header('Location: ../login.php');
@@ -18,7 +19,9 @@ if(!isset($_SESSION['EmailAdmin'])) {
 } 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_reference'])) {
-    $name = $_POST['create_name'];
+    $name = $_POST['create_name'] ; 
+    $name1 = $_POST['create_name1'] ; 
+    
     $description = $_POST['create_description'];
     $link = $_POST['create_link'];
     $type = $_POST['create_type'];
@@ -26,13 +29,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_reference'])) {
     $annee = $_POST['create_annee'];
     $createur = $_POST['create_createur'];
 
-    // Image upload logic
+
     $image = uploadImage('create_image');
 
     if (empty($name) || empty($description) || empty($link) || empty($createur) || empty($annee) || empty($type) || empty($pays) || $image === false) {
         $errorMessage = 'Please fill out all fields and upload a valid image!';
     } else {
-        $result = createReference($name, $description, $image, $link, $type, $pays, $annee, $createur);
+        $result = createReference($name1,$name,$description, $image, $link, $type, $pays, $annee, $createur);
 
         if ($result) {
             header('Location: references.php?create=ok');
@@ -42,31 +45,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_reference'])) {
     }
 }
 
-// Function to handle image upload
+
 function uploadImage($inputName) {
     $targetDir = "../../images/";
     $targetFile = basename($_FILES[$inputName]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-    // Check if image file is a actual image or fake image
+  
     $check = getimagesize($_FILES[$inputName]["tmp_name"]);
     if ($check === false) {
         return false;
     }
 
-    // Check file size (500KB)
+
     if ($_FILES[$inputName]["size"] > 500000) {
         return false;
     }
 
-    // Allow certain file formats
     if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
         && $imageFileType != "gif") {
         return false;
     }
 
-    // if everything is ok, try to upload file
     if (move_uploaded_file($_FILES[$inputName]["tmp_name"],"../../images/" . $targetFile)) {
         return $targetFile;
     } else {
@@ -78,6 +79,7 @@ function uploadImage($inputName) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
     $id = $_POST['id'];
+    $name1 = $_POST['name1'];
     $name = $_POST['name'];
     $description = $_POST['description'];
     $link = $_POST['link'];
@@ -86,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
     $annee = $_POST['annee'];
     $createur = $_POST['createur'];
 
-    // Image upload logic for update
+  
     $image = $_POST['image']; // Existing image path
 
     if ($_FILES['image']['name']) {
@@ -94,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
         if ($newImage !== false) {
             // Delete old image if needed
             if ($image) {
-                unlink($image); // Delete old image file
+                unlink($image); 
             }
             $image = $newImage; // Update image path
         }
@@ -103,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
     if (empty($name) || empty($description) || empty($link) || empty($createur) || empty($annee) || empty($type) || empty($pays)) {
         $errorMessage = 'Please fill out all fields!';
     } else {
-        $result = updateReference($id, $name, $description, $image, $link, $type, $pays, $annee, $createur);
+        $result = updateReference($id,$name1 ,$name, $description, $image, $link, $type, $pays, $annee, $createur);
 
         if ($result) {
             header('Location: references.php?update=ok');
@@ -164,7 +166,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th scope="col">clientId</th>
+                    <th scope="col">UserId</th>
+                    <th scope="col">ClientId</th>
                     <th scope="col">Description</th>
                     <th scope="col">logo</th>
                     <th scope="col">Link</th>
@@ -178,9 +181,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                 <?php foreach($references as $reference) { ?>
                 <tr id="reference-<?php echo $reference['id']; ?>">
                     <td class="yoo" id="client-<?php echo $reference['id']; ?>">
-                        <?php $client = getClient($reference["id_client"]);
+                        <?php $client = getUser($reference["id_client"]);
                         echo $client["username"]; ?>
                     </td>
+
+                    <td class="yoo" id="client1-<?php echo $reference['id']; ?>">
+                        <?php $client1 = getClient1($reference["Client_id"]);
+                        echo $client1["name"]; ?>
+                    </td>
+
+
                     <td id="description-<?php echo $reference['id']; ?>"><?php echo $reference["description"]; ?></td>
                     <td><img id="img-<?php echo $reference['id']; ?>"
                             src="<?php  echo "../../images/" . $reference["logo"]; ?>"
@@ -233,6 +243,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                                 } ?>
                             </select>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="modalClient1" class="form-label">Client </label>
+                            <select class="form-select" id="modalClient1" name="name1" required>
+                                <?php foreach ($clients as $client) {
+                                    echo '<option value="' . $client['id'] . '">' . $client['name'] . '</option>';
+                                } ?>
+                            </select>
+                        </div>
+
+
+
                         <div class="mb-3">
                             <label for="modalDescription" class="form-label">Description:</label>
                             <input type="text" class="form-control" id="modalDescription" name="description" required>
@@ -315,6 +337,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                                 } ?>
                             </select>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="createClient" class="form-label">Client:</label>
+                            <select class="form-select" id="createClient1" name="create_name1" required>
+                                <?php foreach ($clients as $client) {
+                                    echo '<option value="' . $client['id'] . '">' . $client['name'] . '</option>';
+                                } ?>
+                            </select>
+                        </div>
+
+
+
                         <div class="mb-3">
                             <label for="createDescription" class="form-label">Description:</label>
                             <input type="text" class="form-control" id="createDescription" name="create_description"
@@ -373,9 +407,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
         var pays = document.getElementById(`pays-${id}`).innerText;
         var annee = document.getElementById(`annee-${id}`).innerText;
         var creator = document.getElementById(`creator-${id}`).innerText;
+        var client1 = document.getElementById(`client1-${id}`).innerText;
+
 
         document.getElementById("referenceId").value = parseInt(id);
         document.getElementById("modalClient").value = parseInt(client);
+        document.getElementById("modalClient1").value = parseInt(client1);
         document.getElementById("modalDescription").value = description;
         document.getElementById("modalLink").value = link;
         document.getElementById("modalYear").value = annee;
@@ -385,6 +422,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
         for (let i = 0; i < userOptions.length; i++) {
             if (userOptions[i].text.trim() === client) {
                 userOptions[i].selected = true;
+                break;
+            }
+        }
+
+
+        const userOptions1 = document.getElementById("modalClient1").options;
+        for (let i = 0; i < userOptions1.length; i++) {
+            if (userOptions1[i].text.trim() === client1) {
+                userOptions1[i].selected = true;
                 break;
             }
         }

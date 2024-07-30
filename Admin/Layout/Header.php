@@ -33,10 +33,34 @@
                 <?php }?>
 
 
+
+                <?php if(isset($_SESSION["UsernameAdmin"])) { ?>
+
+                <li class="nav-item">
+                    <a class="nav-link active"
+                        href="<?php $_SERVER["HTTP_HOST"] ?>/projetStage/Admin/Year/years.php">Years
+                        <span class="visually-hidden">(current)</span>
+                    </a>
+
+                </li>
+                <?php }?>
+
+
                 <?php if(isset($_SESSION["UsernameAdmin"])) { ?>
                 <li class="nav-item">
                     <a class="nav-link active"
                         href="<?php $_SERVER["HTTP_HOST"] ?>/projetStage/Admin/References/references.php">References
+                        <span class="visually-hidden">(current)</span>
+                    </a>
+
+                </li>
+                <?php }?>
+
+
+                <?php if(isset($_SESSION["UsernameAdmin"])) { ?>
+                <li class="nav-item">
+                    <a class="nav-link active"
+                        href="<?php $_SERVER["HTTP_HOST"] ?>/projetStage/Admin/Client/client.php">Client
                         <span class="visually-hidden">(current)</span>
                     </a>
 
@@ -60,6 +84,17 @@
                 <li class="nav-item">
                     <a class="nav-link active m-auto"
                         href="<?php $_SERVER["HTTP_HOST"] ?>/projetStage/Admin/Country/countries.php">Country
+                        <span class="visually-hidden">(current)</span>
+                    </a>
+
+                </li>
+                <?php }?>
+
+
+                <?php if(isset($_SESSION["UsernameAdmin"])) { ?>
+                <li class="nav-item">
+                    <a class="nav-link active m-auto"
+                        href="<?php $_SERVER["HTTP_HOST"] ?>/projetStage/Admin/searchProject/references.php">Search
                         <span class="visually-hidden">(current)</span>
                     </a>
 

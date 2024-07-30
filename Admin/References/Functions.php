@@ -31,14 +31,15 @@ function getTypes() {
      return $result ; 
   }
 
-function CreateReference($id_client, $description, $logo, $link, $id_type, $pays,$annee,$creator) {
+function CreateReference($id_client1,$id_client, $description, $logo, $link, $id_type, $pays,$annee,$creator) {
     
     $conn = ConnectToDb();
     
 
 
-    $query = "INSERT INTO reference (id_client, description,logo,link,id_type,pays,annee,creator) VALUES (:id_client, :description, :logo, :link, :id_type, :pays,:annee, :creator)" ;
+    $query = "INSERT INTO reference (Client_id,id_client, description,logo,link,id_type,pays,annee,creator) VALUES (:id_client1,:id_client, :description, :logo, :link, :id_type, :pays,:annee, :creator)" ;
     $statement = $conn->prepare($query);
+    $statement->bindParam(':id_client1', $id_client1);
     $statement->bindParam(':id_client', $id_client);
     $statement->bindParam(':description', $description);
     $statement->bindParam(':logo', $logo);
@@ -54,11 +55,12 @@ function CreateReference($id_client, $description, $logo, $link, $id_type, $pays
    
     return $result;
 }
-function updateReference($id, $id_client, $description, $logo, $link, $id_type, $pays, $annee, $creator) {
+function updateReference($id, $client_id ,$id_client, $description, $logo, $link, $id_type, $pays, $annee, $creator) {
     $conn = ConnectToDb();
-    $query = "UPDATE reference SET id_client = :id_client, description = :description, logo = :logo, link = :link, id_type = :id_type, pays = :pays, annee = :annee, creator = :creator WHERE id = :id";
+    $query = "UPDATE reference SET  Client_id = :client_id ,id_client = :id_client, description = :description, logo = :logo, link = :link, id_type = :id_type, pays = :pays, annee = :annee, creator = :creator WHERE id = :id";
     $statement = $conn->prepare($query);
     $statement->bindParam(':id', $id);
+    $statement->bindParam(':client_id', $client_id);
     $statement->bindParam(':id_client', $id_client);
     $statement->bindParam(':description', $description);
     $statement->bindParam(':logo', $logo);
@@ -109,7 +111,7 @@ function GetCountries(){
     
 }
 
-function getClient($id) {
+function getUser($id) {
     $conn = ConnectToDb() ;
     $query = "SELECT * FROM users WHERE id = '$id'" ;
     $conn = $conn->query($query) ;
@@ -142,7 +144,21 @@ function GetReferencesUser($id) {
     return $references ;
 }
 
+function GetClient() {
+    $conn = ConnectToDb() ;
+    $query = "SELECT * FROM client" ;
+    $conn = $conn->query($query) ;
+    $clients = $conn->fetchAll() ;
+    return $clients ;
+}
 
+function getClient1($id) {
+    $conn = ConnectToDb() ;
+    $query = "SELECT * FROM client where id = '$id' " ;
+    $conn = $conn->query($query) ;
+    $client = $conn->fetch() ;
+    return $client ;
+}
 
 
   
