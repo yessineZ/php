@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
     <div class="container">
         <div class="row pt-4 pb-2">
             <div class="col-8">
-                <h2 class="text-primary">Clients List</h2>
+                <h2 class="text-primary text-white">Clients List</h2>
             </div>
             <div class="col-4 text-end">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createClientModal">

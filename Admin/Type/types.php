@@ -36,13 +36,13 @@ if (!isset($_SESSION['EmailAdmin'])) {
     <div class="container">
         <div class="row pt-4 pb-2">
             <div class="col-4">
-                <h2 class="text-primary">
+                <h2 class="text-primary text-white">
                     Type List
                 </h2>
             </div>
             <div class="col-6 text-end">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTypeModal">
-                    <i class="bi bi-plus"></i> Create New Type
+                    <i class="bi bi-plus text-white"></i> Create New Type
                 </button>
             </div>
         </div>

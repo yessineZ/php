@@ -23,6 +23,14 @@ function Getreferences() {
     
 }
 
+function getYears() {
+    $conn = ConnectToDb() ;
+    $query = "SELECT * FROM year" ; 
+    $conn = $conn->query($query) ; 
+    $years = $conn->fetchAll() ;
+    return $years ;
+}
+
 function getTypes() {
      $conn = ConnectToDb() ;
      $query = $conn->query("SELECT * FROM type ") ;
@@ -85,6 +93,17 @@ function GetReference($id) {
     return $Reference ;
 }
 
+
+function getYear($id) {
+    $conn = ConnectToDb() ;
+    
+    $query = "SELECT * FROM year WHERE id = :id" ; 
+    $statement = $conn->prepare($query);
+    $statement->bindParam(':id', $id);
+    $statement->execute();
+    $year = $statement->fetch();
+    return $year ;
+}
 function DeleteReference($id) {
     $conn = ConnectToDb() ;
     $query = "DELETE FROM reference WHERE id = :id" ;

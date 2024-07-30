@@ -12,6 +12,7 @@ $types = GetTypes();
 $users = getUsers();
 $countries = GetCountries();
 $clients = GetClient();
+$years = GetYears();
 
 if(!isset($_SESSION['EmailAdmin'])) {
     header('Location: ../login.php');
@@ -152,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
     <div class="container">
         <div class="row pt-4 pb-2">
             <div class="col-8">
-                <h2 class="text-primary">References List</h2>
+                <h2 class="text-primary text-white">References List</h2>
             </div>
             <div class="col-4 text-end">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createReferenceModal">
@@ -204,7 +205,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                         <?php $pays = getPays($reference["pays"]);
                         echo $pays["name"]; ?>
                     </td>
-                    <td id="annee-<?php echo $reference['id']; ?>"><?php echo $reference["annee"]; ?></td>
+                    <td id="annee-<?php echo $reference['id']; ?>"><?php 
+                    $year = getYear($reference["annee"]);
+                    
+                    echo $year['year']; ?></td>
                     <td id="creator-<?php echo $reference['id']; ?>"><?php echo $reference["creator"]; ?></td>
                     <td>
                         <div class="btn-group" role="group">
@@ -271,9 +275,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                             <label for="modalCreator" class="form-label">Creator:</label>
                             <input type="text" class="form-control" id="modalCreator" name="createur" readonly>
                         </div>
+
                         <div class="mb-3">
                             <label for="modalYear" class="form-label">Year:</label>
-                            <input type="text" class="form-control" id="modalYear" name="annee">
+                            <select class="form-select" id="modalYear" name="annee" required>
+                                <?php foreach ($years as $year) {
+                                    echo '<option value="' . $year['id'] . '">' . $year['year'] . '</option>';
+                                } ?>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="modalType" class="form-label">Type</label>
@@ -362,9 +371,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
                             <label for="createImage" class="form-label">Image URL:</label>
                             <input type="file" class="form-control" id="createImage" name="create_image" required>
                         </div>
+
+
                         <div class="mb-3">
                             <label for="createYear" class="form-label">Year:</label>
-                            <input type="text" class="form-control" id="createYear" name="create_annee" required>
+                            <select class="form-select" id="createYear" name="create_annee" required>
+                                <?php foreach ($years as $year) {
+                                    echo '<option value="' . $year['id'] . '">' . $year['year'] . '</option>';
+                                } ?>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="createType" class="form-label">Type:</label>
@@ -443,6 +458,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
             }
         }
 
+        const YearOptions = document.getElementById("modalYear").options;
+        for (let i = 0; i < YearOptions.length; i++) {
+            if (YearOptions[i].text.trim() === annee) {
+                YearOptions[i].selected = true;
+                break;
+            }
+        }
+
         const countryOptions = document.getElementById("modalPays").options;
         for (let i = 0; i < countryOptions.length; i++) {
             if (countryOptions[i].text.trim() === pays) {
@@ -451,6 +474,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
             }
         }
     }
+
 
     const confirmDelete = (id) => {
         const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");

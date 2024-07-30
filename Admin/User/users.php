@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_user'])) {
     <div class="container">
         <div class="row pt-4 pb-2">
             <div class="col-8">
-                <h2 class="text-primary">Users List</h2>
+                <h2 class="text-primary text-white">Users List</h2>
             </div>
             <div class="col-4 text-end">
                 <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#createUserModal">
