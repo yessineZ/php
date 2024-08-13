@@ -178,13 +178,33 @@ function GetReference($id) {
     $Reference = $statement->fetch();
     return $Reference ;
 }
-function GetReferenceClient($id, $name) {
+function GetReferenceClient($id, $name, $type = '', $year = null) {
     $conn = ConnectToDb();
-$id = intval($id);
+    $id = intval($id);
 
-    $query = "SELECT * FROM reference WHERE Client_id = '$id' and description like '%$name' " ; 
-    $conn = $conn->query($query) ;
-    $references = $conn->fetchAll() ;
+    $query = "SELECT * FROM reference WHERE Client_id = '$id'";
+
+
+    if (!empty($name)) {
+        $query .= " AND description LIKE '%$name%'";
+    }
+
+
+    if (!empty($type)) {
+        $type = intval($type);
+        $query .= " AND id_type = '$type'";
+    }
+
+    
+    if (!empty($year)) {
+         $year = intval($year);
+        $query .= " AND annee = '$year'";
+    }
+
+
+    $conn = $conn->query($query);
+    $references = $conn->fetchAll();
+
     return $references;
 }
 
@@ -257,6 +277,15 @@ function getAllClients() {
      $clients = $conn->fetchAll() ;
      return $clients ;
 }
+
+function getYears() {
+    $conn = ConnectToDb() ;
+    $query = "SELECT * FROM year" ; 
+    $conn = $conn->query($query) ; 
+    $years = $conn->fetchAll() ;
+    return $years ;
+}
+
 
 
   

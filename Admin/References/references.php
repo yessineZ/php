@@ -227,7 +227,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
         </table>
     </div>
 
-    <!-- Edit Modal HTML -->
+
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="updateReferenceModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -307,7 +307,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal HTML -->
+
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteReferenceModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -327,7 +327,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
         </div>
     </div>
 
-    <!-- Create Reference Modal HTML -->
+
     <div class="modal fade" id="createReferenceModal" tabindex="-1" aria-labelledby="createReferenceModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
